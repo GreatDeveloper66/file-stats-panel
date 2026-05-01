@@ -14,5 +14,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Update compiler options for new dependencies
 - Install dev dependencies for jest, mocha and node
-- Add publisher id
+- Add publisher id to package.json
+- update extension.ts
+
+### Added
+
+- Add File Analyzer
+- Add statsPanel
 
