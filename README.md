@@ -11,6 +11,10 @@ import analysis at a glance.
 - Counts import statements and dependencies
 - Supports JavaScript, TypeScript, Java, and Python
 
+## Screenshot
+
+![File Stats Panel](images/screenshot.jpg)
+
 ## How to Use
 
 1. Open any code file in VS Code
@@ -29,3 +33,11 @@ import analysis at a glance.
 ### 1.0.0
 
 Initial release — file stats panel with line count, function detection, and import analysis.
+
+### 1.0.1
+
+Updated release - fixed dependency conflict issues
+
+### 1.0.2
+
+Updated release - fixed documentation issues
