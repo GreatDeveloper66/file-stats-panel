@@ -3,7 +3,7 @@
   "displayName": "File Stats Panel",
   "description": "File Statistics in VS Code displayed in side panel",
   "publisher": "GreatDeveloper",
-  "version": "1.01",
+  "version": "1.0.s1",
   "engines": {
     "vscode": "^1.118.0"
   },
@@ -15,8 +15,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "file-stats-panel.helloWorld",
-        "title": "Hello World"
+        "command": "file-stats-panel.showStats",
+        "title": "Show File Stats"
       }
     ]
   },
