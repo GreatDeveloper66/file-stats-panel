@@ -6,6 +6,11 @@
 			"ES2022",
 			"DOM"
 		],
+		"types": [
+			"node",
+			"mocha",
+			"jest"
+		],
 		"sourceMap": true,
 		"rootDir": "src",
 		"forceConsistentCasingInFileNames": true,
