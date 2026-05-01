@@ -3,7 +3,12 @@
   "displayName": "File Stats Panel",
   "description": "File Statistics in VS Code displayed in side panel",
   "publisher": "GreatDeveloper",
-  "version": "1.0.2",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GreatDeveloper66/file-stats-panel"
+  },
   "engines": {
     "vscode": "^1.118.0"
   },
@@ -17,6 +22,14 @@
       {
         "command": "file-stats-panel.showStats",
         "title": "Show File Stats"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "file-stats-panel.showStats",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorIsOpen"
       }
     ]
   },
