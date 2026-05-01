@@ -3,7 +3,7 @@
   "displayName": "File Stats Panel",
   "description": "File Statistics in VS Code displayed in side panel",
   "publisher": "GreatDeveloper",
-  "version": "0.0.1",
+  "version": "1.00",
   "engines": {
     "vscode": "^1.118.0"
   },
