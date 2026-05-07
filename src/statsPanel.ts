@@ -139,7 +139,7 @@ export class StatsPanel {
             <div class="stat-value">${stats.blankLines}</div>
           </div>
           <div class="stat-card">
-          <div class="stat-label">Variables Detected</div>
+          <div class="stat-label">Variables Detected[Top Level Declarations]</div>
           <div class="stat-value">${
             stats.variableCount >= 0
               ? stats.variableCount
