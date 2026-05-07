@@ -138,6 +138,14 @@ export class StatsPanel {
             <div class="stat-label">Blank Lines</div>
             <div class="stat-value">${stats.blankLines}</div>
           </div>
+          <div class="stat-card">
+          <div class="stat-label">Variables Detected</div>
+          <div class="stat-value">${
+            stats.variableCount >= 0
+              ? stats.variableCount
+              : '<span class="unsupported">N/A</span>'
+          }</div>>
+          </div>
 
           <div class="stat-card">
             <div class="stat-label">Functions Detected</div>

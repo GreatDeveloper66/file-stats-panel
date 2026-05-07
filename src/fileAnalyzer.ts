@@ -6,6 +6,7 @@ export interface FileStats {
   blankLines: number;
   functionCount: number;
   importCount: number;
+  variableCount: number;
 }
 
 const functionPatterns: Record<string, RegExp> = {
@@ -20,6 +21,13 @@ const importPatterns: Record<string, RegExp> = {
   typescript: /^\s*import\s+/gm,
   java: /^\s*import\s+/gm,
   python: /^\s*(import\s+|from\s+\w+\s+import)/gm,
+};
+
+const variablePatterns: Record<string, RegExp> = {
+  javascript: /^\s*(const|let|var)\s+\w+/gm,
+  typescript: /^\s*(const|let|var)\s+\w+|^\s*(private|public|protected|readonly)\s+\w+/gm,
+  java: /^\s*(private|public|protected|static)?\s*\w+\s+\w+\s*[=;]/gm,
+  python: /^\s{0,4}\w+\s*=/gm,
 };
 
 function countMatches(text: string, pattern: RegExp | undefined): number {
@@ -40,6 +48,7 @@ export function analyzeFile(
 
   const functionCount = countMatches(content, functionPatterns[language]);
   const importCount = countMatches(content, importPatterns[language]);
+  const variableCount = countMatches(content, variablePatterns[language]);
 
   return {
     fileName,
@@ -49,5 +58,6 @@ export function analyzeFile(
     blankLines,
     functionCount,
     importCount,
+    variableCount
   };
 }
