@@ -10,6 +10,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.0.1] - 2026-05-01
 
+- Initial release
+
 ### Changed
 
 - Update compiler options for new dependencies
@@ -22,3 +24,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Add File Analyzer
 - Add statsPanel
 
+## [1.0.2] - 2026-05-06
+
+- Initial Release
+
+### Added[2]
+
+- Add counting variables functionality
+
+## [2.0.0]
+
+- Initial Release
