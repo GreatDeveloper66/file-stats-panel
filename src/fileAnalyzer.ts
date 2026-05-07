@@ -24,14 +24,14 @@ const importPatterns: Record<string, RegExp> = {
 };
 
 const variablePatterns: Record<string, RegExp> = {
-  javascript: /^\s*(const|let|var)\s+\w+/gm,
-  typescript: /^\s*(const|let|var)\s+\w+|^\s*(private|public|protected|readonly)\s+\w+/gm,
+  javascript: /^(const|let|var)\s+\w+/gm,
+  typescript: /^(const|let|var)\s+\w+|^(private|public|protected|readonly)\s+\w+/gm,
   java: /^\s*(private|public|protected|static)?\s*\w+\s+\w+\s*[=;]/gm,
   python: /^\s{0,4}\w+\s*=/gm,
 };
 
 function countMatches(text: string, pattern: RegExp | undefined): number {
-  if (!pattern) {return 0;}
+  if (!pattern) { return 0; }
   const matches = text.match(pattern);
   return matches ? matches.length : 0;
 }
