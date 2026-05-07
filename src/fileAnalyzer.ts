@@ -10,12 +10,18 @@ export interface FileStats {
 }
 
 const functionPatterns: Record<string, RegExp> = {
-  javascript: /^\s*(async\s+)?function\s+\w+|^\s*const\s+\w+\s*=\s*(async\s+)?\(.*\)\s*=>/gm,
-  typescript: /^\s*(async\s+)?function\s+\w+|^\s*const\s+\w+\s*=\s*(async\s+)?\(.*\)\s*=>|^\s*(public|private|protected)?\s*(async\s+)?\w+\s*\(.*\)\s*[:{]/gm,
+  javascript: /^(export\s+)?(default\s+)?(async\s+)?function\s+\w+|^(export\s+)?(const|let)\s+\w+\s*=\s*(async\s+)?\(.*\)\s*=>/gm,
+  typescript: /^(export\s+)?(default\s+)?(async\s+)?function\s+\w+|^(export\s+)?(const|let)\s+\w+\s*=\s*(async\s+)?\(.*\)\s*=>|^\s*(public|private|protected)?\s*(async\s+)?\w+\s*\(.*\)\s*[:{]/gm,
   java: /^\s*(public|private|protected)?\s*(static\s+)?\w+\s+\w+\s*\(.*\)\s*\{/gm,
   python: /^\s*def\s+\w+\s*\(/gm,
 };
 
+const variablePatterns: Record<string, RegExp> = {
+  javascript: /^(export\s+)?(const|let|var)\s+\w+(?!\s*=\s*(async\s+)?\()/gm,
+  typescript: /^(export\s+)?(const|let|var)\s+\w+(?!\s*=\s*(async\s+)?\()|^(export\s+)?(private|public|protected|readonly)\s+\w+/gm,
+  java: /^\s{4}(private|public|protected|static)?\s*\w+\s+\w+\s*[=;]/gm,
+  python: /^\w+\s*=/gm,
+};
 const importPatterns: Record<string, RegExp> = {
   javascript: /^\s*(import\s+|require\s*\()/gm,
   typescript: /^\s*import\s+/gm,
@@ -23,12 +29,7 @@ const importPatterns: Record<string, RegExp> = {
   python: /^\s*(import\s+|from\s+\w+\s+import)/gm,
 };
 
-const variablePatterns: Record<string, RegExp> = {
-  javascript: /^(const|let|var)\s+\w+/gm,
-  typescript: /^(const|let|var)\s+\w+|^(private|public|protected|readonly)\s+\w+/gm,
-  java: /^\s*(private|public|protected|static)?\s*\w+\s+\w+\s*[=;]/gm,
-  python: /^\s{0,4}\w+\s*=/gm,
-};
+
 
 function countMatches(text: string, pattern: RegExp | undefined): number {
   if (!pattern) { return 0; }
