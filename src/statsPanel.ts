@@ -168,6 +168,17 @@ export class StatsPanel {
               }
             </div>
           </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Exports Detected</div>
+            <div class="stat-value">
+              ${
+                stats.exportCount >= 0
+                  ? stats.exportCount
+                  : '<span class="unsupported">N/A</span>'
+              }
+            </div>
+          </div>
         </div>
       </body>
       </html>

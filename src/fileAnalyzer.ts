@@ -7,6 +7,7 @@ export interface FileStats {
   functionCount: number;
   importCount: number;
   variableCount: number;
+  exportCount: number;
 }
 
 const functionPatterns: Record<string, RegExp> = {
@@ -27,6 +28,13 @@ const importPatterns: Record<string, RegExp> = {
   typescript: /^\s*import\s+/gm,
   java: /^\s*import\s+/gm,
   python: /^\s*(import\s+|from\s+\w+\s+import)/gm,
+};
+
+const exportPatterns: Record<string, RegExp> = {
+  javascript: /^(export\s+(default\s+)?|module\.exports\s*=|exports\.\w+\s*=)/gm,
+  typescript: /^(export\s+(default\s+)?|module\.exports\s*=|exports\.\w+\s*=)/gm,
+  java: /^\s*(public)\s+(static\s+|final\s+|abstract\s+)?\w+/gm,
+  python: /^\s*__all__\s*=/gm,
 };
 
 
@@ -50,6 +58,7 @@ export function analyzeFile(
   const functionCount = countMatches(content, functionPatterns[language]);
   const importCount = countMatches(content, importPatterns[language]);
   const variableCount = countMatches(content, variablePatterns[language]);
+  const exportCount = countMatches(content, exportPatterns[language]);
 
   return {
     fileName,
@@ -59,6 +68,7 @@ export function analyzeFile(
     blankLines,
     functionCount,
     importCount,
-    variableCount
+    variableCount,
+    exportCount,
   };
 }
