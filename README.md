@@ -30,14 +30,34 @@ import analysis at a glance.
 
 ## Release Notes
 
-### 1.0.0
+## [1.0.0]
 
-Initial release — file stats panel with line count, function detection, and import analysis.
+- Initial release
 
-### 1.0.1
+## 1.0.1 - 2026-05-01
 
-Updated release - fixed dependency conflict issues
+- Initial release
 
-### 1.0.2
+### Changed
 
-Updated release - fixed documentation issues
+- Update compiler options for new dependencies
+- Install dev dependencies for jest, mocha and node
+- Add publisher id to package.json
+- update extension.ts
+
+### Added
+
+- Add File Analyzer
+- Add statsPanel
+
+## 1.0.2 - 2026-05-06
+
+- Initial Release
+
+### Added[2]
+
+- Add counting variables functionality
+
+## 2.0.0
+
+- Initial Release
