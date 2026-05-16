@@ -8,6 +8,8 @@ export interface FileStats {
   importCount: number;
   variableCount: number;
   exportCount: number;
+  functionNames: string[];
+  variableNames: string[];
 }
 
 const functionPatterns: Record<string, RegExp> = {
@@ -37,12 +39,40 @@ const exportPatterns: Record<string, RegExp> = {
   python: /^\s*__all__\s*=/gm,
 };
 
+const functionNamePatterns: Record<string, RegExp> = {
+  javascript: /^(?:export\s+)?(?:default\s+)?(?:async\s+)?function\s+(\w+)|^(?:export\s+)?(?:const|let)\s+(\w+)\s*=\s*(?:async\s+)?\(/gm,
+  typescript: /^(?:export\s+)?(?:default\s+)?(?:async\s+)?function\s+(\w+)|^(?:export\s+)?(?:const|let)\s+(\w+)\s*=\s*(?:async\s+)?\(|^\s*(?:public|private|protected)?\s*(?:async\s+)?(\w+)\s*\(/gm,
+  java: /^\s*(?:public|private|protected)?\s*(?:static\s+)?\w+\s+(\w+)\s*\(/gm,
+  python: /^\s*def\s+(\w+)\s*\(/gm,
+};
+
+const variableNamePatterns: Record<string, RegExp> = {
+  
+  javascript: /^(?:export\s+)?(?:const|let|var)\s+(\w+)(?!\s*=\s*(?:async\s+)?\()/gm,
+  typescript: /^(?:export\s+)?(?:const|let|var)\s+(\w+)(?!\s*=\s*(?:async\s+)?\()|^(?:export\s+)?(?:private|public|protected|readonly)\s+(\w+)/gm,
+  java: /^\s{4}(?:private|public|protected|static)?\s+(\w+)\s+\w+\s*[=;]/gm,
+  python: /^\w+\s*=/gm,
+};
+
 
 
 function countMatches(text: string, pattern: RegExp | undefined): number {
   if (!pattern) { return 0; }
   const matches = text.match(pattern);
   return matches ? matches.length : 0;
+}
+
+export function getMatches(text: string, pattern: RegExp): string[] {
+  const results: string[] = [];
+  const matches = text.matchAll(pattern);
+  for (const match of matches) {
+    // Try each capture group in order, take the first one that has a value
+    const name = match[1] || match[2] || match[3];
+    if (name) {
+      results.push(name.trim());
+    }
+  }
+  return results;
 }
 
 export function analyzeFile(
@@ -59,6 +89,8 @@ export function analyzeFile(
   const importCount = countMatches(content, importPatterns[language]);
   const variableCount = countMatches(content, variablePatterns[language]);
   const exportCount = countMatches(content, exportPatterns[language]);
+  const functionNames = getMatches(content, functionNamePatterns[language]);
+  const variableNames = getMatches(content, variableNamePatterns[language]);
 
   return {
     fileName,
@@ -70,5 +102,7 @@ export function analyzeFile(
     importCount,
     variableCount,
     exportCount,
+    functionNames,
+    variableNames
   };
 }

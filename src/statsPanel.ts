@@ -179,6 +179,26 @@ export class StatsPanel {
               }
             </div>
           </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Function Names</div>
+            <div class="stat-value">
+              ${
+                stats.functionNames.length > 0
+                  ? stats.functionNames.join(", ")
+                  : '<span class="unsupported">N/A</span>'
+              }
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Variable Names</div>
+            <div class="stat-value">
+              ${
+                stats.variableNames.length > 0
+                  ? stats.variableNames.join(", ")
+                  : '<span class="unsupported">N/A</span>'
+              }
+            </div>
         </div>
       </body>
       </html>
