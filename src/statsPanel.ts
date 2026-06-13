@@ -2,10 +2,16 @@ import * as vscode from "vscode";
 import { FileStats } from "./fileAnalyzer";
 
 export class StatsPanel {
-  public static currentPanel: StatsPanel | undefined;
+  private static _currentPanel: StatsPanel | undefined;
   private readonly _panel: vscode.WebviewPanel;
-  private _disposables: vscode.Disposable[] = [];
+  private readonly _disposables: vscode.Disposable[] = [];
 
+  public static get currentPanel(): StatsPanel | undefined {
+    return StatsPanel._currentPanel;
+  }
+  public static set currentPanel(value: StatsPanel | undefined) {
+    StatsPanel._currentPanel = value;
+  }
   // Static factory method — creates or reveals the panel
   public static createOrShow(
     extensionUri: vscode.Uri,
