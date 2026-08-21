@@ -55,6 +55,15 @@ const variableNamePatterns: Record<string, RegExp> = {
   python: /^\w+\s*=/gm,
 };
 
+//find the names of the functions being imported
+const importNamePatterns: Record<string, RegExp> = {
+  // JS: ES module named imports { a, b as c } AND CommonJS require destructuring
+  javascript: /import\s+(?:([\w$]+)\s*,\s*)?(?:\{([^}]+)\}|(\*\s*as\s+[\w$]+)|([\w$]+))?\s*from\s*['"][^'"]+['"]|(?:const|let|var)\s*\{([^}]+)\}\s*=\s*require\(['"][^'"]+['"]\)/g,
+  typescript: /import\s+(?:type\s+)?(?:([\w$]+)\s*,\s*)?(?:\{([^}]+)\}|(\*\s*as\s+[\w$]+)|([\w$]+))?\s*from\s*['"][^'"]+['"]/g,
+  java: /import\s+(?:static\s+)?([\w.]+(?:\.\*|\.\w+))\s*;/g,
+  python: /^\s*(?:from\s+[\w.]+\s+import\s+([\w\s,*]+)|import\s+([\w\s,.]+))/gm,
+};
+
 
 
 function countMatches(text: string, pattern: RegExp | undefined): number {
@@ -76,6 +85,114 @@ export function getMatches(text: string, pattern: RegExp): string[] {
   return results;
 }
 
+interface ImportStats {
+  count: number;
+  names: string[];
+}
+
+function extractImportNames(fileContent: string, language: string): ImportStats {
+  const pattern = importNamePatterns[language];
+  if (!pattern) {
+    return { count: 0, names: [] };
+  }
+
+  // Reset lastIndex in case this regex object was reused with the `g` flag
+  pattern.lastIndex = 0;
+
+  const names: string[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(fileContent)) !== null) {
+    switch (language) {
+      case 'javascript':
+      case 'typescript':
+        names.push(...extractJsTsNames(match));
+        break;
+      case 'java':
+        names.push(...extractJavaNames(match));
+        break;
+      case 'python':
+        names.push(...extractPythonNames(match));
+        break;
+    }
+
+    // Guard against zero-length matches causing an infinite loop
+    if (match.index === pattern.lastIndex) {
+      pattern.lastIndex++;
+    }
+  }
+
+  return {
+    count: names.length,
+    names,
+  };
+}
+
+function extractJsTsNames(match: RegExpExecArray): string[] {
+  const [, defaultName, namedBlock, namespaceImport, singleImport] = match;
+  const result: string[] = [];
+
+  if (defaultName) {
+    result.push(defaultName.trim());
+  }
+
+  if (namedBlock) {
+    // namedBlock looks like: "foo, bar as baz, qux"
+    const pieces = namedBlock.split(',').map(p => p.trim()).filter(Boolean);
+    for (const piece of pieces) {
+      // "bar as baz" -> we want "baz" (the local name actually used in the file)
+      const asMatch = piece.match(/^(?:type\s+)?[\w$]+\s+as\s+([\w$]+)$/);
+      result.push(asMatch ? asMatch[1] : piece.replace(/^type\s+/, ''));
+    }
+  }
+
+  if (namespaceImport) {
+    // "* as foo" -> "foo"
+    const asMatch = namespaceImport.match(/as\s+([\w$]+)/);
+    if (asMatch) result.push(asMatch[1]);
+  }
+
+  if (singleImport) {
+    result.push(singleImport.trim());
+  }
+
+  return result;
+}
+
+function extractJavaNames(match: RegExpExecArray): string[] {
+  const fullPath = match[1];
+  if (!fullPath) return [];
+
+  if (fullPath.endsWith('.*')) {
+    // Wildcard import — no individual name, just note the package
+    return [`${fullPath} (wildcard)`];
+  }
+
+  const segments = fullPath.split('.');
+  return [segments[segments.length - 1]];
+}
+
+function extractPythonNames(match: RegExpExecArray): string[] {
+  const [, fromImportList, plainImportList] = match;
+  const result: string[] = [];
+
+  const rawList = fromImportList ?? plainImportList;
+  if (!rawList) return result;
+
+  const pieces = rawList.split(',').map(p => p.trim()).filter(Boolean);
+  for (const piece of pieces) {
+    if (piece === '*') {
+      result.push('* (wildcard)');
+      continue;
+    }
+    // "foo as bar" -> "bar"
+    const asMatch = piece.match(/^([\w.]+)\s+as\s+(\w+)$/);
+    result.push(asMatch ? asMatch[2] : piece);
+  }
+
+  return result;
+}
+
 export function analyzeFile(
   content: string,
   fileName: string,
@@ -86,13 +203,12 @@ export function analyzeFile(
   const blankLines = lines.filter((line) => line.trim() === "").length;
   const codeLines = totalLines - blankLines;
 
+  const { count: importCount, names: importNames } = extractImportNames(content, language);
   const functionCount = countMatches(content, functionPatterns[language]);
-  const importCount = countMatches(content, importPatterns[language]);
   const variableCount = countMatches(content, variablePatterns[language]);
   const exportCount = countMatches(content, exportPatterns[language]);
   const functionNames = getMatches(content, functionNamePatterns[language]);
   const variableNames = getMatches(content, variableNamePatterns[language]);
-  const importNames = getMatches(content, importPatterns[language]);
 
   return {
     fileName,
