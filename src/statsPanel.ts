@@ -206,6 +206,16 @@ export class StatsPanel {
               }
             </div>
         </div>
+        <div class="stat-card">
+            <div class="stat-label">Import Names</div>
+            <div class="stat-value">
+              ${
+                stats.importNames.length > 0
+                  ? stats.importNames.join(", ")
+                  : '<span class="unsupported">N/A</span>'
+              }
+            </div>
+        </div>
       </body>
       </html>
     `;
