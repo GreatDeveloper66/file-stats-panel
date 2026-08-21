@@ -10,6 +10,7 @@ export interface FileStats {
   exportCount: number;
   functionNames: string[];
   variableNames: string[];
+  importNames: string[];
 }
 
 const functionPatterns: Record<string, RegExp> = {
@@ -91,6 +92,7 @@ export function analyzeFile(
   const exportCount = countMatches(content, exportPatterns[language]);
   const functionNames = getMatches(content, functionNamePatterns[language]);
   const variableNames = getMatches(content, variableNamePatterns[language]);
+  const importNames = getMatches(content, importPatterns[language]);
 
   return {
     fileName,
@@ -103,6 +105,7 @@ export function analyzeFile(
     variableCount,
     exportCount,
     functionNames,
-    variableNames
+    variableNames,
+    importNames
   };
 }
