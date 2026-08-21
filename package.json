@@ -3,7 +3,7 @@
   "displayName": "File Stats Panel",
   "description": "File Statistics in VS Code displayed in side panel",
   "publisher": "GreatDeveloper",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
