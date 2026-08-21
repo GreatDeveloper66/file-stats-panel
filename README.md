@@ -61,3 +61,11 @@ import analysis at a glance.
 ## 2.0.0
 
 - Initial Release
+
+## 2.1.0 - 2026-08-21
+
+### Added[3]
+
+-Add finding names of imported modules functionality
+
+-
