@@ -4,7 +4,7 @@ import { StatsPanel } from "./statsPanel";
 
 export function activate(context: vscode.ExtensionContext): void {
   const disposable = vscode.commands.registerCommand(
-    "file-stats-panel.showStats",   // Must match the command in package.json exactly
+    "repo-blueprint.showStats",   // Must match the command in package.json exactly
     () => {
       const editor = vscode.window.activeTextEditor;
 

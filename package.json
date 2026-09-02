@@ -1,10 +1,17 @@
 {
-  "name": "file-stats-panel",
-  "displayName": "File Stats Panel",
-  "description": "File Statistics in VS Code displayed in side panel",
+  "name": "repo-blueprint",
+  "displayName": "Repo Blueprint",
+  "description": "Analyzes your repository and displays structural statistics in a side panel — line counts, function detection, import analysis, and more.",
   "publisher": "GreatDeveloper",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "keywords": [
+    "repository analysis",
+    "code statistics",
+    "diagram",
+    "readme generator",
+    "repo structure"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/GreatDeveloper66/file-stats-panel"
@@ -20,13 +27,13 @@
   "contributes": {
     "commands": [
       {
-        "command": "file-stats-panel.showStats",
+        "command": "repo-blueprint.showStats",
         "title": "Show File Stats"
       }
     ],
     "keybindings": [
       {
-        "command": "file-stats-panel.showStats",
+        "command": "repo-blueprint.showStats",
         "key": "ctrl+shift+f",
         "mac": "cmd+shift+f",
         "when": "editorIsOpen"
