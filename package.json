@@ -3,7 +3,7 @@
   "displayName": "Repo Blueprint",
   "description": "Analyzes your repository and displays structural statistics in a side panel — line counts, function detection, import analysis, and more.",
   "publisher": "GreatDeveloper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "keywords": [
     "repository analysis",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/GreatDeveloper66/file-stats-panel"
+    "url": "https://github.com/GreatDeveloper66/repo-blueprint"
   },
   "engines": {
     "vscode": "^1.118.0"
