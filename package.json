@@ -3,7 +3,7 @@
   "displayName": "Repo Blueprint",
   "description": "Analyzes your repository and displays structural statistics in a side panel — line counts, function detection, import analysis, and more.",
   "publisher": "GreatDeveloper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "keywords": [
     "repository analysis",

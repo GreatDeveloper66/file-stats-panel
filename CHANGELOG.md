@@ -4,6 +4,12 @@ All notable changes to the "Repo Blueprint" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.2] - 2026-09-08
+
+### Added[4]
+
+- Add repo blueprint icon image
+
 ## [1.0.1] - 2026-09-01
 
 ### Changed
